@@ -1,10 +1,12 @@
 
-from keras.layers import Input, Conv2D, Flatten, Dense, Conv2DTranspose, Reshape, Lambda, Activation, BatchNormalization, LeakyReLU, Dropout
-from keras.models import Model
-from keras import backend as K
-from keras.optimizers import Adam
-from keras.callbacks import ModelCheckpoint 
-from keras.utils import plot_model
+import tensorflow
+
+from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense, Conv2DTranspose, Reshape, Lambda, Activation, BatchNormalization, LeakyReLU, Dropout
+from tensorflow.keras.models import Model
+from tensorflow.keras import backend as K
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import ModelCheckpoint 
+from tensorflow.keras.utils import plot_model
 
 from utils.callbacks import CustomCallback, step_decay_schedule
 
@@ -84,7 +86,8 @@ class Autoencoder():
         ### THE DECODER
         decoder_input = Input(shape=(self.z_dim,), name='decoder_input')
 
-        x = Dense(np.prod(shape_before_flattening))(decoder_input)
+        # x = Dense(np.prod(shape_before_flattening))(decoder_input)
+        x = Dense(tensorflow.math.reduce_prod(shape_before_flattening))(decoder_input)
         x = Reshape(shape_before_flattening)(x)
 
         for i in range(self.n_layers_decoder):
